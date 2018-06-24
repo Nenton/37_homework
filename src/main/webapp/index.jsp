@@ -11,8 +11,10 @@
     <title>$Title$</title>
   </head>
   <body>
-  <a href="./hibernate">Read</a>
-  <a href="./jdbc">Read</a>
+  <a href="./hibernate">Hibernate save</a><br>
+  <a href="./jdbc">JDBC save</a><br>
 
+  <a href="./readjdbc">JDBC read</a><br>
+  <a href="./readhibernate">Hibernate read</a><br>
   </body>
 </html>

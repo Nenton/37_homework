@@ -3,9 +3,9 @@ package ru.innopolis.stc9.dao.connection;
 import org.springframework.stereotype.Component;
 import ru.innopolis.stc9.hibernate.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TestDaoJdbc {
@@ -23,5 +23,27 @@ public class TestDaoJdbc {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    public List<Test> readJdbc() {
+        List<Test> tests = new ArrayList<>();
+        try (Connection connection = ConnectionManagerJDBCImpl.getInstance().getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "select * from test")) {
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String id = resultSet.getString("id");
+                        Date date = resultSet.getDate("testdate");
+                        double v = resultSet.getDouble("testdouble");
+                        int i = resultSet.getInt("testint");
+                        tests.add(new Test(id, i, v, date));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return tests;
     }
 }

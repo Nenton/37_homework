@@ -25,6 +25,13 @@ public class Test {
         this.testDate = testDate;
     }
 
+    public Test(String id, int testInt, double testDouble, Date testDate) {
+        this.id = id;
+        this.testInt = testInt;
+        this.testDouble = testDouble;
+        this.testDate = testDate;
+    }
+
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

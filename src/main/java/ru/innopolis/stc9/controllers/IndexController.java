@@ -27,7 +27,7 @@ public class IndexController {
     @RequestMapping(value = "/hibernate", method = RequestMethod.GET)
     public String getHibernate(Model model) {
         long time = System.currentTimeMillis();
-
+//        testDao.startSession();
         Random random = new Random();
         for (int i = 0; i < 1000; i++) {
             Test test = new Test(random.nextInt(999999999),
@@ -35,7 +35,7 @@ public class IndexController {
                     new Date(random.nextInt(999999999)));
             testDao.saveTest(test);
         }
-
+//        testDao.closeSession();
         time = System.currentTimeMillis() - time;
         model.addAttribute("time", time);
         model.addAttribute("method", "Hibernate");
@@ -57,6 +57,26 @@ public class IndexController {
         time = System.currentTimeMillis() - time;
         model.addAttribute("time", time);
         model.addAttribute("method", "JDBC");
+        return "hibernate";
+    }
+
+    @RequestMapping(value = "/readjdbc", method = RequestMethod.GET)
+    public String readjdbc(Model model) {
+        long time = System.currentTimeMillis();
+        int size = daoJdbc.readJdbc().size();
+        time = System.currentTimeMillis() - time;
+        model.addAttribute("time", time);
+        model.addAttribute("method", "JDBC");
+        return "hibernate";
+    }
+
+    @RequestMapping(value = "/readhibernate", method = RequestMethod.GET)
+    public String readHibernate(Model model) {
+        long time = System.currentTimeMillis();
+        int size = testDao.read().size();
+        time = System.currentTimeMillis() - time;
+        model.addAttribute("time", time);
+        model.addAttribute("method", "Hibernate");
         return "hibernate";
     }
 }
